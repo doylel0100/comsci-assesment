@@ -1,5 +1,6 @@
 import pandas
 
+
 def not_blank(question):
     while True:
         response = input(question)
@@ -14,8 +15,10 @@ def not_blank(question):
 def num_check(question, num_type):
     if num_type == int:
         error = "Please enter an integer that is more than zero"
+
+
     else:
-        error = "Please enter a number is more than zero"
+        error = "Please enter a number that is more than zero and less than 10,000"
 
     while True:
 
@@ -25,28 +28,28 @@ def num_check(question, num_type):
             if response <= 0:
                 print(error)
 
+            elif response >= 10000:
+                print(error)
+
+
             else:
                 return response
 
         except ValueError:
             print(error)
 
+
 def string_checker(question, num_letters, valid_responses):
     error = "please choose {}, {}, {}, {} or {}".format(valid_responses[0],
-                                            valid_responses[1],
-                                            valid_responses[2],
-                                            valid_responses[3],
-                                            valid_responses[4])
+                                                        valid_responses[1],
+                                                        valid_responses[2],
+                                                        valid_responses[3],
+                                                        valid_responses[4])
 
     if num_letters == 1:
         short_version = 1
     elif num_letters == 2:
         pass
-
-
-
-
-
 
     while True:
 
@@ -58,17 +61,19 @@ def string_checker(question, num_letters, valid_responses):
 
         print(error)
 
-def yes_no(question):
-            while True:
-                response = input(question).lower()
 
-                if response == "yes" or response == "y":
-                    return "yes"
-                elif response == "no" or response == "n":
-                    return "no"
-                else:
-                    print("please enter yes / no")
-                    continue
+def yes_no(question):
+    while True:
+        response = input(question).lower()
+
+        if response == "yes" or response == "y":
+            return "yes"
+        elif response == "no" or response == "n":
+            return "no"
+        else:
+            print("please enter yes / no")
+            continue
+
 
 # unit converter
 def cost_per_unit_calc(amount_purchased, units, ingredient_cost):
@@ -87,10 +92,8 @@ def cost_per_unit_calc(amount_purchased, units, ingredient_cost):
     return cost_per_unit
 
 
-yes_no_list = ["yes","no"]
-valid_units_list = ["kg","g","mg","l","ml"]
-
-
+yes_no_list = ["yes", "no"]
+valid_units_list = ["kg", "g", "mg", "l", "ml"]
 
 ingredient_list = []
 quantity_used_list = []
@@ -106,25 +109,21 @@ variable_dict = {
 }
 
 ingredient_purchased_dict = {
-"price": price_list,
-"amount": amount_list,
-"unit": units_list,
-"cost": cost_list
+    "price": price_list,
+    "amount": amount_list,
+    "unit": units_list,
+    "cost": cost_list
 }
 want_instructions = yes_no("do you want to read the instructions? ")
 if want_instructions == "yes":
     print("instructions go here")
 
-
-print ()
-
-
+print()
 
 what_dish = not_blank("what dish are you making ")
 
 dish_amount = num_check('how many servings'
-                        '', int)
-
+                        '', float)
 
 print("please enter variable costs below..."
       "enter 'xxx' as ingrediant name when done. \n")
@@ -137,33 +136,23 @@ while ingredient_name.lower() != "xxx":
     if ingredient_name.lower() == "xxx":
         break
 
-    quantity_used = num_check("quantity used:", int)
+    quantity_used = num_check("quantity used:", float)
 
-    units = string_checker("please select units (kg , g , mg , l , ml):", 1 ,
+    units = string_checker("please select units (kg , g , mg , l , ml):", 1,
                            valid_units_list)
     print()
 
+    amount_purchased = num_check('amount purchased', float)
 
-
-
-
-    amount_purchased = num_check('amount purchased', int)
-
-    units = string_checker("please select units (kg , g , mg , l , ml):", 1 ,
+    units = string_checker("please select units (kg , g , mg , l , ml):", 1,
                            valid_units_list)
 
     ingredient_cost = num_check('ingredient cost $', float)
     print()
 
     cost_per_unit = cost_per_unit_calc(amount_purchased, units, ingredient_cost)
-   
 
     cost_per_ingredient = (cost_per_unit * quantity_used)
-
-
-
-
-
 
     ingredient_list.append(ingredient_name)
     quantity_used_list.append(quantity_used)
@@ -172,23 +161,20 @@ while ingredient_name.lower() != "xxx":
     cost_list.append(ingredient_cost)
     price_list.append(cost_per_unit)
 
-
 print()
 variable_costs_frame = pandas.DataFrame(variable_dict)
 variable_costs_frame = variable_costs_frame.set_index('ingrediant')
 
 print(variable_costs_frame)
-print ()
+print()
 
 ingredient_costs_frame = pandas.DataFrame(ingredient_purchased_dict)
 ingredient_costs_frame = ingredient_costs_frame.set_index('price')
 
 print(ingredient_costs_frame)
 
-
-
 total_ingredient_cost = ingredient_costs_frame['cost'].sum()
 
 cost_per_serving = (total_ingredient_cost / dish_amount)
 print()
-print ("cost per serving", cost_per_serving)
+print("cost per serving", cost_per_serving)
