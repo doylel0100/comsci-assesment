@@ -122,7 +122,7 @@ print()
 
 what_dish = not_blank("what dish are you making ")
 
-dish_amount = num_check('how many servings'
+dish_amount = num_check('how many servings? \n'
                         '', float)
 
 print("please enter variable costs below..."
@@ -138,13 +138,23 @@ while ingredient_name.lower() != "xxx":
 
     quantity_used = num_check("quantity used:", float)
 
+
+
     units = string_checker("please select units (kg , g , mg , l , ml):", 1,
                            valid_units_list)
+    print(units)
+
+
+
+
+
+
+
     print()
 
     amount_purchased = num_check('amount purchased', float)
 
-    units = string_checker("please select units (kg , g , mg , l , ml):", 1,
+    units_purchased = string_checker("please select units (kg , g , l , ml):", 1,
                            valid_units_list)
 
     ingredient_cost = num_check('ingredient cost $', float)
