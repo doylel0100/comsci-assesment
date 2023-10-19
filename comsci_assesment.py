@@ -56,7 +56,7 @@ def string_checker(question, num_letters, valid_responses):
         response = input(question).lower()
 
         for item in valid_responses:
-            if response == item[:short_version] or response == item:
+            if response == item:
                 return item
 
         print(error)
@@ -92,12 +92,31 @@ def cost_per_unit_calc(amount_purchased, units, ingredient_cost):
     return cost_per_unit
 
 
+
+def cost_per_unit_calc_2(amount_purchased_2, units_2, ingredient_cost_2):
+    if units == "kg":
+        converted_amount_2 = amount_purchased_2 * 1000
+    elif units_2 == "g":
+        converted_amount_2 = amount_purchased_2
+    elif units_2 == "mg":
+        converted_amount_2 = amount_purchased_2 / 1000
+    elif units_2 == "l":
+        converted_amount_2 = amount_purchased_2 * 1000
+    elif units_2 == "ml":
+        converted_amount_2 = amount_purchased_2
+
+    cost_per_unit_2 = ingredient_cost_2 / converted_amount_2
+    return cost_per_unit_2
+
+
 yes_no_list = ["yes", "no"]
 valid_units_list = ["kg", "g", "mg", "l", "ml"]
+valid_units_list_2 = ["kg", "g", "mg", "l", "ml"]
 
 ingredient_list = []
 quantity_used_list = []
 units_list = []
+units_v2_list = []
 price_list = []
 amount_list = []
 cost_list = []
@@ -109,10 +128,10 @@ variable_dict = {
 }
 
 ingredient_purchased_dict = {
-    "price": price_list,
+    "price per g/ml": price_list,
     "amount": amount_list,
-    "unit": units_list,
-    "cost": cost_list
+    "cost": cost_list,
+    "unit": units_v2_list
 }
 want_instructions = yes_no("do you want to read the instructions? ")
 if want_instructions == "yes":
@@ -155,18 +174,24 @@ while ingredient_name.lower() != "xxx":
     amount_purchased = num_check('amount purchased', float)
 
     units_purchased = string_checker("please select units (kg , g , l , ml):", 1,
-                           valid_units_list)
+                           valid_units_list_2)
 
     ingredient_cost = num_check('ingredient cost $', float)
     print()
 
-    cost_per_unit = cost_per_unit_calc(amount_purchased, units, ingredient_cost)
+    cost_per_unit = cost_per_unit_calc(amount_purchased, units_purchased,ingredient_cost)
+    print("amount purchased", amount_purchased)
+    print("units", units)
+    print("ingredient cost", ingredient_cost)
+    print("cost per unit", cost_per_unit)
 
     cost_per_ingredient = (cost_per_unit * quantity_used)
+    print("ingredient cost", cost_per_ingredient)
 
     ingredient_list.append(ingredient_name)
     quantity_used_list.append(quantity_used)
     units_list.append(units)
+    units_v2_list.append(units_purchased)
     amount_list.append(amount_purchased)
     cost_list.append(ingredient_cost)
     price_list.append(cost_per_unit)
@@ -179,7 +204,7 @@ print(variable_costs_frame)
 print()
 
 ingredient_costs_frame = pandas.DataFrame(ingredient_purchased_dict)
-ingredient_costs_frame = ingredient_costs_frame.set_index('price')
+ingredient_costs_frame = ingredient_costs_frame.set_index('price per g/ml')
 
 print(ingredient_costs_frame)
 
