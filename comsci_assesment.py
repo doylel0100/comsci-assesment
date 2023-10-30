@@ -1,6 +1,7 @@
 import pandas
 
-
+#funtion starts here
+#not blank
 def not_blank(question):
     while True:
         response = input(question)
@@ -11,7 +12,7 @@ def not_blank(question):
         else:
             return response
 
-
+#number checker
 def num_check(question, num_type):
     if num_type == int:
         error = "Please enter an integer that is more than zero"
@@ -38,7 +39,7 @@ def num_check(question, num_type):
         except ValueError:
             print(error)
 
-
+#string checker
 def string_checker(question, num_letters, valid_responses):
     error = "please choose {}, {}, {}, {} or {}".format(valid_responses[0],
                                                         valid_responses[1],
@@ -61,7 +62,7 @@ def string_checker(question, num_letters, valid_responses):
 
         print(error)
 
-
+#yes no checker
 def yes_no(question):
     while True:
         response = input(question).lower()
@@ -93,26 +94,14 @@ def cost_per_unit_calc(amount_purchased, units, ingredient_cost):
 
 
 
-def cost_per_unit_calc_2(amount_purchased_2, units_2, ingredient_cost_2):
-    if units == "kg":
-        converted_amount_2 = amount_purchased_2 * 1000
-    elif units_2 == "g":
-        converted_amount_2 = amount_purchased_2
-    elif units_2 == "mg":
-        converted_amount_2 = amount_purchased_2 / 1000
-    elif units_2 == "l":
-        converted_amount_2 = amount_purchased_2 * 1000
-    elif units_2 == "ml":
-        converted_amount_2 = amount_purchased_2
-
-    cost_per_unit_2 = ingredient_cost_2 / converted_amount_2
-    return cost_per_unit_2
 
 
+#vailid units
 yes_no_list = ["yes", "no"]
 valid_units_list = ["kg", "g", "mg", "l", "ml"]
 valid_units_list_2 = ["kg", "g", "mg", "l", "ml"]
 
+#variables
 ingredient_list = []
 quantity_used_list = []
 units_list = []
@@ -122,6 +111,7 @@ amount_list = []
 cost_list = []
 cost_ingerdiant_used_list = []
 
+#dictionarys
 variable_dict = {
     "Ingrediant ": ingredient_list,
     "Quantity used ": quantity_used_list,
@@ -137,20 +127,27 @@ ingredient_purchased_dict = {
     "Ingrediant ": ingredient_list
 
 }
+
+#want instructons
 want_instructions = yes_no("do you want to read the instructions? ")
 if want_instructions == "yes":
     print("instructions go here")
 
 print()
 
+
+#dish name
 what_dish = not_blank("what dish are you making ")
 
+#serving amount
 dish_amount = num_check('how many servings? \n'
                         '', float)
 
 print("please enter variable costs below..."
       "enter 'xxx' as ingrediant name when done. \n")
 
+
+#ingredient name and exit code
 ingredient_name = ""
 while ingredient_name.lower() != "xxx":
 
@@ -162,7 +159,7 @@ while ingredient_name.lower() != "xxx":
     quantity_used = num_check("quantity used:", float)
 
 
-
+#units
     units = string_checker("please select units (kg , g , mg , l , ml):", 1,
                            valid_units_list)
     print(units)
@@ -174,24 +171,26 @@ while ingredient_name.lower() != "xxx":
 
 
     print()
-
+#amount percahsed and units
     amount_purchased = num_check('amount purchased', float)
 
     units_purchased = string_checker("please select units (kg , g , l , ml):", 1,
                            valid_units_list_2)
-
+#ingredient cost
     ingredient_cost = num_check('ingredient cost $', float)
     print()
-
+#cost per unit
     cost_per_unit = cost_per_unit_calc(amount_purchased, units_purchased,ingredient_cost)
     print("amount purchased", amount_purchased)
     print("units", units)
     print("ingredient cost", ingredient_cost)
     print("cost per unit", cost_per_unit)
 
+#cost per ingrediant
     cost_per_ingredient = (cost_per_unit * quantity_used)
     print("ingredient cost", cost_per_ingredient)
 
+#adding columns to the table
     ingredient_list.append(ingredient_name)
     quantity_used_list.append(quantity_used)
     units_list.append(units)
@@ -200,6 +199,8 @@ while ingredient_name.lower() != "xxx":
     cost_list.append(ingredient_cost)
     price_list.append(cost_per_unit)
     cost_ingerdiant_used_list.append(cost_per_ingredient)
+
+#printing infromation for table
 print()
 print("name of dish: ", what_dish)
 print()
